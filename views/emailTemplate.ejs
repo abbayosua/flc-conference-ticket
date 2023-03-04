@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pendaftaran School Of Prophets Berhasil!</title>
+  <style>
+    /* Add your CSS styles here */
+  </style>
+</head>
+<body>
+  <h1>Terima kasih sudah Mendaftar!</h1>
+  <p>Halo <%= user.full_name %>,</p>
+  <h4>Untuk Tag Name bisa klik disini:</h4>
+  <a href="http://localhost:3000/tagname/<%= user.id %>">Klik Disini</a>
+  <p>Berikut Informasi pendaftaran anda:</p>
+  <ul>
+    <img style="border-radius: 50%; height: 105%; width: 105%; margin-left: -5px;" src="http://localhost:3000/<%= user.profile_picture %>" />
+    <li><strong>Email:</strong> <%= user.email %></li>
+    <li><strong>Password:</strong> <%= user.email %></li>
+    <li><strong>Nama Lengkap:</strong> <%= user.full_name %></li>
+    <li><strong>Tanggal Lahir:</strong> <%= user.born_date %></li>
+    <li><strong>Kota Asal:</strong> <%= user.city %></li>
+    <li><strong>Nomor Telepon:</strong> <%= user.phone_number %></li>
+    <li><strong>Ukuran T-Shirt:</strong> <%= user.tshirt_size %></li>
+    <li><strong>Ukuran Jas:</strong> <%= user.blazer_size %></li>
+  </ul>
+  <p>Jika ada kendala bisa langsung chat whatsapp support <a href="https://wa.me/628117774884">disini</a></p>
+  <p>Sincerely,</p>
+  <p>FLC Team</p>
+</body>
+</html>

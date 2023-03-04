@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+  </head>
+  <body>
+    <h1>Register</h1>
+    <form method="POST" enctype="multipart/form-data" action="/register">
+        <div>
+          <label for="email">Email</label>
+          <input type="email" name="email" required>
+        </div>
+        <div>
+          <label for="full_name">Full Name</label>
+          <input type="text" name="full_name" required>
+        </div>
+        <div>
+          <label for="born_date">Born Date</label>
+          <input type="date" name="born_date" required>
+        </div>
+        <div>
+          <label for="city">City</label>
+          <input type="text" name="city" required>
+        </div>
+        <div>
+          <label for="phone_number">Phone Number</label>
+          <input type="tel" name="phone_number" required>
+        </div>
+        <div>
+            <label for="position_at_church">Posisi di Gereja</label>
+            <input type="text" name="position_at_church" required>
+          </div>
+        <div>
+          <label for="tshirt_size">T-Shirt Size</label>
+          <select name="tshirt_size" required>
+            <option value="">--Select--</option>
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+        </div>
+        <div>
+            <label for="blazer_size">T-Shirt Size</label>
+            <select name="blazer_size" required>
+                <option value="">--Select--</option>
+                <option value="S">S</option>
+                <option value="M">M</option>
+                <option value="L">L</option>
+                <option value="XL">XL</option>
+            </select>
+        </div>
+        <div>
+          <label for="profile_picture">Profile Picture</label>
+          <input type="file" name="profile_picture" accept="image/*" required>
+        </div>
+        <div>
+            <label for="quotes_words">Kata Mutiara</label>
+            <input type="text" name="quotes_words" required>
+          </div>
+        <div>
+          <button type="submit">Register</button>
+        </div>
+    </form>
+  </body>
+</html>
