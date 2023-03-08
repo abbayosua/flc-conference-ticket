@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Member Area</title>
+  </head>
+  <body>
+    <h1>Welcome <%= user.email %></h1>
+    <ul>
+      <li><strong>Email:</strong> <%= user.email %></li>
+      <li><strong>Full Name:</strong> <%= user.full_name %></li>
+      <li><strong>Birth Date:</strong> <%= user.born_date %></li>
+      <li><strong>City:</strong> <%= user.city %></li>
+      <li><strong>Phone Number:</strong> <%= user.phone_number %></li>
+      <li><strong>T-Shirt Size:</strong> <%= user.tshirt_size %></li>
+      <li><strong>T-Shirt Size:</strong> <img src="/<%= user.profile_picture %>"/></li>
+    </ul>
+
+  </body>
+</html>

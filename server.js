@@ -1,11 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const multer = require('multer');
+// const multer = require('multer');
 const path = require('path');
 const nodemailer = require('nodemailer');
+// const wbm = require('wbm');
 const ejs = require('ejs');
 const fs = require('fs');
+const formidable = require('formidable');
+const FormData = require('form-data');
+const axios = require('axios');
 
 const app = express();
 const port = 3000;
@@ -20,15 +24,15 @@ mongoose.connect(mongoAtlasUri, {
 
 
 // Set up multer storage for file uploads
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads');
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));
-  },
-});
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+// const upload = multer({ storage: storage });
 
 // Set up body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -64,7 +68,9 @@ app.get("/", function(req, res) {
 });
 
 
-app.post('/register', upload.single('profile_picture'), async function (req, res) {
+app.post('/register',
+  // upload.single('profile_picture'),
+  async function (req, res) {
   // const { username, password, email, fullName, bornDate, city, phoneNumber, tShirtSize } = req.body;
   // const profilePicture = req.file ? req.file.path : '';
 
@@ -79,23 +85,64 @@ app.post('/register', upload.single('profile_picture'), async function (req, res
     // const salt = await bcrypt.genSalt(10);
     // const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user object
-    const user = new User({
-      email: req.body.email,
-      password: req.body.password,
-      full_name: req.body.full_name,
-      born_date: req.body.born_date,
-      city: req.body.city,
-      phone_number: req.body.phone_number,
-      position_at_church: req.body.position_at_church,
-      tshirt_size: req.body.tshirt_size,
-      blazer_size: req.body.blazer_size,
-      profile_picture: req.file.path,
-      quotes_words: req.body.quotes_word
-    });
+    // let externalImageUrl
 
-    // Save user to database
-    const savedUserData = await user.save();
+    const form = new formidable.IncomingForm();
+    form.parse(req, (err, fields, files) => {
+      // handle file upload
+      console.log(files)
+      const file = files.profile_picture;
+      // const filePath = file.path;
+      const fileData = fs.readFileSync(file.filepath);
+      const base64Image = Buffer.from(fileData).toString('base64');
+
+      const formData = new FormData();
+      formData.append('key', '6d207e02198a847aa98d0a2a901485a5');
+      formData.append('action', 'upload');
+      formData.append('source', base64Image);
+      formData.append('format', 'json');
+      axios({
+        method: "post",
+        url: "https://freeimage.host/api/1/upload",
+        data: formData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(async (response) => {
+        console.log(response.data.image.url);
+
+        // Create user object
+        const user = new User({
+          email: fields.email,
+          password: fields.password,
+          full_name: fields.full_name,
+          born_date: fields.born_date,
+          city: fields.city,
+          phone_number: fields.phone_number,
+          position_at_church: fields.position_at_church,
+          tshirt_size: fields.tshirt_size,
+          blazer_size: fields.blazer_size,
+          profile_picture: response.data.image.url,
+          // external_profile_picture: externalImageUrl,
+          quotes_words: fields.quotes_word
+        });
+
+        // Save user to database
+        const savedUserData = await user.save();
+        await sendMail(
+          fields.email,
+          "Registration Successful",
+          "./views/emailTemplate.ejs",
+          { user: savedUserData, password: fields.password }
+        );
+
+        res.redirect("/tagname/" + user.id);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    })
+
 
     const transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -106,7 +153,6 @@ app.post('/register', upload.single('profile_picture'), async function (req, res
     });
 
 
-    console.log(`test ${req.body.profile_picture}`)
     const sendMail = async (toEmail, subject, templatePath, data) => {
       try {
         const emailTemplate = ejs.compile(
@@ -125,14 +171,6 @@ app.post('/register', upload.single('profile_picture'), async function (req, res
         console.error(`Error sending email to ${toEmail}`, error);
       }
     };
-
-    // Usage example
-    sendMail(
-      req.body.email,
-      "Registration Successful",
-      "./views/emailTemplate.ejs",
-      { user: savedUserData, password: req.body.password }
-    );
 
     // const dataToEmail = req.body
 
@@ -162,7 +200,6 @@ app.post('/register', upload.single('profile_picture'), async function (req, res
 
     // Redirect to login page
     // res.redirect('/login');
-    res.redirect("/tagname/" + user.id);
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: 'Internal server error' });
@@ -188,6 +225,22 @@ app.get("/tagname/:id", function(req, res) {
     console.log(err)
   });
 });
+
+// app.get("/whatsapp/:id", async function(req, res) {
+//   User.findById(req.params.id)
+//   .then(async function(user) {
+//     const message = 'silahkan ke ....'
+//     await wbm.start({ showBrowser: false });
+//     await wbm.send(user.phone_number, message);
+//     await wbm.end();
+//     res.status(200).json({ message: 'Message sent successfully!' });
+//     res.render("whatsapp", { user });
+//   })
+//   .catch(function(err) {
+//     console.log(err)
+//   });
+// });
+
 
 app.get('/uploads/:filename', (req, res) => {
   const filename = req.params.filename;
