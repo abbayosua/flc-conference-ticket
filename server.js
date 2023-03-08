@@ -10,6 +10,7 @@ const fs = require('fs');
 const formidable = require('formidable');
 const FormData = require('form-data');
 const axios = require('axios');
+const requestIP = require('request-ip');
 
 const app = express();
 const port = 3000;
@@ -224,6 +225,11 @@ app.get("/tagname/:id", function(req, res) {
   .catch(function(err) {
     console.log(err)
   });
+});
+
+app.get('/public-ip',function(req, res) {
+  const ipAddress = requestIP.getClientIp(req);
+  res.send("your IP is: " + ipAddress);
 });
 
 // app.get("/whatsapp/:id", async function(req, res) {
