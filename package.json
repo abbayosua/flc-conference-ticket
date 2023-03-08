@@ -28,9 +28,6 @@
     "formidable": "^2.1.1",
     "mongodb": "^5.1.0",
     "mongoose": "^7.0.0",
-    "multer": "^1.4.5-lts.1",
-    "nodemailer": "^6.9.1",
-    "puppeteer-core": "^19.7.2",
-    "wbm": "^1.1.16"
+    "nodemailer": "^6.9.1"
   }
 }
