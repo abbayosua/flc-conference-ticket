@@ -50,7 +50,7 @@ app.get('/', function (req, res) {
 
 const userSchema = new mongoose.Schema({
     email: String,
-    password: String,
+    // password: String,
     full_name: String,
     born_date: Date,
     city: String,
@@ -92,10 +92,13 @@ app.post('/register',
     form.parse(req, (err, fields, files) => {
       // handle file upload
       console.log(files)
-      const file = files.profile_picture;
+      const file = fields.profile_picture;
+      // const file = files.profile_picture;
       // const filePath = file.path;
-      const fileData = fs.readFileSync(file.filepath);
-      const base64Image = Buffer.from(fileData).toString('base64');
+      // const fileData = fs.readFileSync(file.filepath);
+      // const base64Image = Buffer.from(fileData).toString('base64');
+      const base64Image = file;
+      console.log(base64Image)
 
       const formData = new FormData();
       formData.append('key', '6d207e02198a847aa98d0a2a901485a5');
@@ -114,7 +117,7 @@ app.post('/register',
         // Create user object
         const user = new User({
           email: fields.email,
-          password: fields.password,
+          // password: fields.password,
           full_name: fields.full_name,
           born_date: fields.born_date,
           city: fields.city,
@@ -133,7 +136,10 @@ app.post('/register',
           fields.email,
           "Registration Successful",
           "./views/emailTemplate.ejs",
-          { user: savedUserData, password: fields.password }
+          {
+            user: savedUserData,
+            // password: fields.password
+          }
         );
 
         res.redirect("/tagname/" + user.id);
