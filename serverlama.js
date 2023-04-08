@@ -24,6 +24,17 @@ mongoose.connect(mongoAtlasUri, {
 });
 
 
+// Set up multer storage for file uploads
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, 'uploads');
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + path.extname(file.originalname));
+//   },
+// });
+// const upload = multer({ storage: storage });
+
 // Set up body-parser middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -39,6 +50,7 @@ app.get('/', function (req, res) {
 
 const userSchema = new mongoose.Schema({
     email: String,
+    // password: String,
     full_name: String,
     born_date: Date,
     city: String,
@@ -58,14 +70,33 @@ app.get("/", function(req, res) {
 
 
 app.post('/register',
+  // upload.single('profile_picture'),
   async function (req, res) {
+  // const { username, password, email, fullName, bornDate, city, phoneNumber, tShirtSize } = req.body;
+  // const profilePicture = req.file ? req.file.path : '';
 
   try {
+    // Check if email already exists
+    // const existingUser = await User.findOne({ email });
+    // if (existingUser) {
+    //   return res.status(400).send({ error: 'email already exists' });
+    // }
+
+    // Hash password
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt);
+
+    // let externalImageUrl
+
     const form = new formidable.IncomingForm();
     form.parse(req, (err, fields, files) => {
       // handle file upload
       console.log(files)
       const file = fields.profile_picture;
+      // const file = files.profile_picture;
+      // const filePath = file.path;
+      // const fileData = fs.readFileSync(file.filepath);
+      // const base64Image = Buffer.from(fileData).toString('base64');
       const base64Image = file;
       console.log(base64Image)
 
@@ -86,6 +117,7 @@ app.post('/register',
         // Create user object
         const user = new User({
           email: fields.email,
+          // password: fields.password,
           full_name: fields.full_name,
           born_date: fields.born_date,
           city: fields.city,
@@ -94,6 +126,7 @@ app.post('/register',
           tshirt_size: fields.tshirt_size,
           blazer_size: fields.blazer_size,
           profile_picture: response.data.image.url,
+          // external_profile_picture: externalImageUrl,
           quotes_words: fields.quotes_word
         });
 
@@ -105,6 +138,7 @@ app.post('/register',
           "./views/emailTemplate.ejs",
           {
             user: savedUserData,
+            // password: fields.password
           }
         );
 
@@ -145,6 +179,34 @@ app.post('/register',
       }
     };
 
+    // const dataToEmail = req.body
+
+    // ejs.renderFile(path.join(__dirname, 'views', 'emailTemplate.ejs'), { user: dataToEmail }, (err, data) => {
+    //   if (err) {
+    //     console.log(err);
+    //     res.render('index', { message: 'Error sending email' });
+    //   } else {
+    //     const mailOptions = {
+    //       from: 'your_email@gmail.com',
+    //       to: dataToEmail.email,
+    //       subject: 'Welcome to our website!',
+    //       html: data
+    //     };
+
+    //     transporter.sendMail(mailOptions, (err, info) => {
+    //       if (err) {
+    //         console.log(err);
+    //         res.render('index', { message: 'Error sending email' });
+    //       } else {
+    //         console.log('Email sent: ' + info.response);
+    //         res.render('index', { message: 'User registered and email sent' });
+    //       }
+    //     });
+    //   }
+    // });
+
+    // Redirect to login page
+    // res.redirect('/login');
   } catch (err) {
     console.error(err);
     res.status(500).send({ error: 'Internal server error' });
@@ -161,87 +223,6 @@ app.get("/members/:id", function(req, res) {
   });
 });
 
-
-// Add a route that displays the list of users
-app.get('/users', async function(req, res) {
-  const users = await User.find();
-  res.render('superuser', { users });
- });
- 
- // Add a route that deletes all users
- app.post('/delete-all', async function(req, res) {
-  await User.deleteMany();
-  res.redirect('/users');
- });
- 
- // Add a route that displays a form to edit a user
- app.get('/edit/:id', async function(req, res) {
-  const user = await User.findById(req.params.id);
-  res.render('edit', { user });
- });
- 
- // Add a route that updates a user's information
- app.post('/edit/:id', async function(req, res) {
-  const user = await User.findById(req.params.id);
-  user.email = req.body.email;
-  user.full_name = req.body.full_name;
-  user.born_date = req.body.born_date;
-  user.city = req.body.city;
-  user.phone_number = req.body.phone_number;
-  user.position_at_church = req.body.position_at_church;
-  user.tshirt_size = req.body.tshirt_size;
-  user.blazer_size = req.body.blazer_size;
-  user.quotes_words = req.body.quotes_words;
-  await user.save();
-  res.redirect('/users');
- });
- 
- // Add a route that displays a form to add a new user
- app.get('/new', function(req, res) {
-  res.render('new');
- });
- 
- // Add a route that creates a new user
- app.post('/new', async function(req, res) {
-  const user = new User({
-  email: req.body.email,
-  full_name: req.body.full_name,
-  born_date: req.body.born_date,
-  city: req.body.city,
-  phone_number: req.body.phone_number,
-  position_at_church: req.body.position_at_church,
-  tshirt_size: req.body.tshirt_size,
-  blazer_size: req.body.blazer_size,
-  profile_picture: req.body.profile_picture,
-  quotes_words: req.body.quotes_words
-  });
-  await user.save();
-  res.redirect('/users');
- });
- 
- // Add a route that deletes a user
- app.post('/delete/:id', async function(req, res) {
-  await User.findByIdAndDelete(req.params.id);
-  res.redirect('/users');
- });
- 
- // Render the EJS file for the user interface
- app.get('/superuser', function(req, res) {
-  res.render('superuser');
- }); 
-
-
-app.get('/listmembers', async function(req, res) {
-  try {
-      const users = await User.find();
-      res.render('users', { users });
-  } catch(err) {
-      console.error(err);
-      res.status(500).send({ error: 'Internal server error' });
-  }
-});
-
-
 app.get("/tagname/:id", function(req, res) {
   User.findById(req.params.id)
   .then(function(user) {
@@ -256,6 +237,21 @@ app.get('/public-ip',function(req, res) {
   const ipAddress = requestIP.getClientIp(req);
   res.send("your IP is: " + ipAddress);
 });
+
+// app.get("/whatsapp/:id", async function(req, res) {
+//   User.findById(req.params.id)
+//   .then(async function(user) {
+//     const message = 'silahkan ke ....'
+//     await wbm.start({ showBrowser: false });
+//     await wbm.send(user.phone_number, message);
+//     await wbm.end();
+//     res.status(200).json({ message: 'Message sent successfully!' });
+//     res.render("whatsapp", { user });
+//   })
+//   .catch(function(err) {
+//     console.log(err)
+//   });
+// });
 
 
 app.get('/uploads/:filename', (req, res) => {

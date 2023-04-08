@@ -1,0 +1,130 @@
+<!-- users.ejs -->
+
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Users List</title>
+</head>
+
+<link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<body>
+  
+ <h1>Users List</h1>
+ 
+ <a href="/">Add New User</a>
+ <table>
+ <thead>
+ <tr>
+ <th>Email</th>
+ <th>Name</th>
+ <th>Birth Date</th>
+ <th>City</th>
+ <th>Phone Number</th>
+ <th>Position at Church</th>
+ <th>T-Shirt Size</th>
+ <th>Blazer Size</th>
+ <th>Profile Picture</th>
+ <th>Quotes Words</th>
+ <th>Edit</th>
+ <th>Delete</th>
+ </tr>
+ </thead>
+ <tbody>
+ <% users.forEach(function(user) { %>
+ <tr>
+ <td><%= user.email %></td>
+ <td><%= user.full_name %></td>
+ <td><%= user.born_date %></td>
+ <td><%= user.city %></td>
+ <td><%= user.phone_number %></td>
+ <td><%= user.position_at_church %></td>
+ <td><%= user.tshirt_size %></td>
+ <td><%= user.blazer_size %></td>
+ <td><img src="<%= user.profile_picture %>"/></td>
+ <td><%= user.quotes_words %></td>
+ <td><a href="/edit/<%= user._id %>">Edit</a></td>
+ <td><form method="POST" action="/delete/<%= user._id %>"><button type="submit">Delete</button></form></td>
+ </tr>
+ <% }); %>
+ </tbody>
+ </table>
+</body>
+
+<style>
+
+    body {
+      background-color: #f1f3f4;
+      font-family: 'Roboto', sans-serif;
+    }
+    
+    h1 {
+      font-size: 36px;
+      color: #202124;
+      margin-bottom: 24px;
+    }
+    
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    
+    thead {
+      background-color: #f1f3f4;
+    }
+    
+    th {
+      font-weight: 500;
+      text-align: left;
+      padding: 12px;
+      color: #5f6368;
+      border-bottom: 1px solid #dadce0;
+    }
+    
+    td {
+      padding: 12px;
+      border-bottom: 1px solid #dadce0;
+    }
+    
+    td img {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    
+    a {
+      display: inline-block;
+      background-color: #1a73e8;
+      color: #fff;
+      font-weight: 500;
+      text-align: center;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-top: 24px;
+    }
+    
+    a:hover {
+      background-color: #0d47a1;
+    }
+    
+    button[type="submit"] {
+      background-color: #db4437;
+      color: #fff;
+      font-weight: 500;
+      text-align: center;
+      padding: 12px 24px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+    
+    button[type="submit"]:hover {
+      background-color: #c62828;
+    }
+    </style>
+</html>
