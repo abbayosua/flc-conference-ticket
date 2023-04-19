@@ -1,10 +1,30 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Member Area</title>
+    <title></title>
   </head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <body>
-    <h1>Welcome <%= user.email %></h1>
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+      <a class="navbar-brand" href="#">FLC Registration System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <!-- <a class="nav-link" href="#">Home</a> -->
+          </li>
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li> -->
+        </ul>
+      </div>
+    </nav>
+    <h1>Welcome <%= user.full_name %></h1>
     <ul>
       <li><strong>Email:</strong> <%= user.email %></li>
       <li><strong>Password:</strong> <%= user.password %></li>
@@ -15,6 +35,10 @@
       <li><strong>T-Shirt Size:</strong> <%= user.tshirt_size %></li>
       <li><strong>Foto:</strong> <img height="50%" src="<%= user.profile_picture %>"/></li>
     </ul>
+    <div style="width: 100%; text-align: center;">
+      <h1>Download TagName</h1>
+    </div>
+    <iframe src="/tagname/<%= user.id %>" style="width: 100%; height: 100%"></iframe>
 
   </body>
 </html>

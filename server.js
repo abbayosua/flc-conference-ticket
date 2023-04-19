@@ -20,6 +20,13 @@ mongoose.connect(mongoAtlasUri, {
  useNewUrlParser: true,
  useUnifiedTopology: true
 });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function() {
+  console.log("Connected to database!");
+});
+
+// autoIncrement.initialize(db);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,7 +36,9 @@ app.get('/', function (req, res) {
  res.render('index');
 });
 
+
 const userSchema = new mongoose.Schema({
+ user_number: Number,
  email: String,
  full_name: String,
  born_date: Date,
@@ -40,7 +49,8 @@ const userSchema = new mongoose.Schema({
  blazer_size: String,
  profile_picture: String,
  quotes_words: String,
-});
+},
+);
 
 const User = mongoose.model("FLCTicket", userSchema);
 
@@ -56,7 +66,6 @@ app.post('/register', async function (req, res) {
      
      const file = fields.profile_picture;
      const base64Image = file;
-     console.log(base64Image)
      
      const formData = new FormData();
      formData.append('key', '6d207e02198a847aa98d0a2a901485a5');
@@ -71,8 +80,12 @@ app.post('/register', async function (req, res) {
        headers: { "Content-Type": "multipart/form-data" },
      })
      .then(async (response) => {
+      
+      const userCount = await User.countDocuments();
+      
        
        const user = new User({
+         user_number: userCount + 1,
          email: fields.email,
          full_name: fields.full_name,
          born_date: fields.born_date,
@@ -82,10 +95,31 @@ app.post('/register', async function (req, res) {
          tshirt_size: fields.tshirt_size,
          blazer_size: fields.blazer_size,
          profile_picture: response.data.image.url,
-         quotes_words: fields.quotes_word
+         quotes_words: fields.quotes_words
        });
        
        const savedUserData = await user.save();
+       
+       res.redirect("/tagname/" + user.id);
+       
+      //  const apiEndpoint = `https://wa-openai.fahrizal91238.repl.co/${fields.phone_number}/Selamat anda sudah terdaftar di School of Prophet 2023! Berikut link tagname anda yang bisa anda download sekarang!`;
+
+
+      //  await axios.post(apiEndpoint);
+      
+      const postData = async () => {
+        try {
+          const response = await axios.post('https://wa-openai.fahrizal91238.repl.co/sendwhatsapp', {
+            number: fields.phone_number,
+            msg: `Selamat anda sudah terdaftar di School of Prophet 2023! \n\n Berikut link tagname anda yang bisa anda download sekarang!
+            http://google.com/${user.id}`
+          });
+          console.log(response);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      postData();
        
        await sendMail(
          fields.email,
@@ -94,10 +128,6 @@ app.post('/register', async function (req, res) {
          { user: savedUserData }
        );
        
-       const apiEndpoint = `https://wa-openai.fahrizal91238.repl.co/${fields.phone_number}/Selamat anda sudah terdaftar`;
-       await axios.get(apiEndpoint);
-       
-       res.redirect("/tagname/" + user.id);
        
      })
      .catch((error) => {
@@ -153,9 +183,9 @@ app.get('/users', async function(req, res) {
  res.render('superuser', { users });
 });
  
-app.post('/delete-all', async function(req, res) {
+app.get('/delete-all', async function(req, res) {
  await User.deleteMany();
- res.redirect('/users');
+ res.render('deleted');
 });
  
 app.get('/edit/:id', async function(req, res) {
@@ -181,8 +211,12 @@ app.post('/edit/:id', async function(req, res) {
 app.get('/new', function(req, res) {
  res.render('new');
 });
+
+app.get('/supermenu', function(req, res) {
+  res.render('supermenu');
+ });
  
-app.post('/new', async function(req, res) {
+app.post('/new', async function(req, res) { 
  const user = new User({
    email: req.body.email,
    full_name: req.body.full_name,

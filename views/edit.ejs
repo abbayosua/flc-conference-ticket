@@ -6,7 +6,27 @@
 </head>
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <body>
+  <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <a class="navbar-brand" href="#">Registration</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li> -->
+      </ul>
+    </div>
+  </nav>
  <h1>Edit User</h1>
  <form method="POST" action="/edit/<%= user._id %>">
  <label for="email">Email:</label>
@@ -49,9 +69,13 @@
  <label for="quotes_words">Quotes Words:</label>
  <textarea name="quotes_words" id="quotes_words" required><%= user.quotes_words %></textarea>
  <br>
- <button type="submit">Save Changes</button>
- </form>
- <a href="/">Cancel</a>
+  <div class="d-flex flex-row">
+    <button type="submit">
+      <a class="btn btn-primary">Save Changes</a>
+    </button>
+      <a class="btn btn-secondary" href="/">Cancel</a>
+    </div>
+    </form>
 </body>
 <style>
 body {
@@ -94,7 +118,7 @@ body {
     object-fit: cover;
   }
   
-  a {
+  /* a {
     display: inline-block;
     background-color: #1a73e8;
     color: #fff;
@@ -108,9 +132,9 @@ body {
   
   a:hover {
     background-color: #0d47a1;
-  }
+  } */
   
-  button[type="submit"] {
+  /* button[type="submit"] {
     background-color: #db4437;
     color: #fff;
     font-weight: 500;
@@ -123,6 +147,6 @@ body {
   
   button[type="submit"]:hover {
     background-color: #c62828;
-  }
+  } */
   </style>
 </html>

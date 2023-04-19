@@ -8,17 +8,37 @@
 </head>
 
 <link href="https://fonts.googleapis.com/css?family=Roboto:400,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <body>
-  
+  <nav class="navbar navbar-expand-md bg-dark navbar-dark mb-5">
+    <a class="navbar-brand" href="#">FLC Registration System</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/supermenu">Home</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" href="#">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Contact</a>
+        </li> -->
+      </ul>
+    </div>
+  </nav>
  <h1>Users List</h1>
  
- <a href="/">Add New User</a>
+ <a class="btn btn-primary" href="/">Add New User</a>
  <table>
  <thead>
  <tr>
+  <th>Nomor Urut Peserta</th>
  <th>Email</th>
  <th>Name</th>
  <th>Birth Date</th>
@@ -29,6 +49,7 @@
  <th>Blazer Size</th>
  <th>Profile Picture</th>
  <th>Quotes Words</th>
+ <th>Print TagName</th>
  <th>Edit</th>
  <th>Delete</th>
  </tr>
@@ -36,6 +57,7 @@
  <tbody>
  <% users.forEach(function(user) { %>
  <tr>
+  <td><%= user.user_number %></td>
  <td><%= user.email %></td>
  <td><%= user.full_name %></td>
  <td><%= user.born_date %></td>
@@ -46,7 +68,8 @@
  <td><%= user.blazer_size %></td>
  <td><img src="<%= user.profile_picture %>"/></td>
  <td><%= user.quotes_words %></td>
- <td><a href="/edit/<%= user._id %>">Edit</a></td>
+ <td><a class="btn btn-primary" href="/tagname/<%= user._id %>">Print Tagname</a></td>
+ <td><a class="btn btn-success" href="/edit/<%= user._id %>">Edit</a></td>
  <td><form method="POST" action="/delete/<%= user._id %>"><button type="submit">Delete</button></form></td>
  </tr>
  <% }); %>
@@ -96,7 +119,7 @@
       object-fit: cover;
     }
     
-    a {
+    /* a {
       display: inline-block;
       background-color: #1a73e8;
       color: #fff;
@@ -110,7 +133,7 @@
     
     a:hover {
       background-color: #0d47a1;
-    }
+    } */
     
     button[type="submit"] {
       background-color: #db4437;
