@@ -25,6 +25,7 @@
       </div>
     </nav>
     <h1>Welcome <%= user.full_name %></h1>
+    <h3><a href="/memberedit/<%= user.id %>">Klik disini untuk rubah data</a></h3>
     <ul>
       <li><strong>Email:</strong> <%= user.email %></li>
       <li><strong>Password:</strong> <%= user.password %></li>
@@ -36,9 +37,10 @@
       <li><strong>Foto:</strong> <img height="50%" src="<%= user.profile_picture %>"/></li>
     </ul>
     <div style="width: 100%; text-align: center;">
-      <h1>Download TagName</h1>
+      <h1><a href="/tagname/<%= user.id %>" >Download TagName</a></h1>
+      
+      <a href="/tagname/<%= user.id %>" class="btn btn-success">Download Sekarang</a>
     </div>
-    <iframe src="/tagname/<%= user.id %>" style="width: 100%; height: 100%"></iframe>
 
   </body>
 </html>
