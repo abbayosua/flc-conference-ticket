@@ -35,6 +35,7 @@
  <h1>Users List</h1>
  
  <a class="btn btn-primary" href="/">Add New User</a>
+ <a class="btn btn-success" onclick="generateExcel()">Download List Peserta (Excel)</a>
  <table>
  <thead>
  <tr>
@@ -76,7 +77,23 @@
  </tbody>
  </table>
 </body>
+<script>
+  // This function will be triggered when the "Save" button is clicked
+function generateExcel() {
+  // Show a prompt to get the desired filename from the user
+  var fileName = prompt("Mau disimpan dengan nama apa?");
 
+  // If the user clicked "OK" and entered a filename
+  if (fileName != null && fileName != "") {
+    // Construct the URL with the dynamic filename
+    var url = "http://localhost:3000/exceldownload/" + fileName;
+
+    // Redirect to the dynamic URL
+    window.location.href = url;
+  }
+}
+
+</script>
 <style>
 
     body {

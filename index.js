@@ -9,6 +9,7 @@ const formidable = require('formidable');
 const FormData = require('form-data');
 const axios = require('axios');
 const requestIP = require('request-ip');
+const ExcelJS = require('exceljs');
 
 const app = express();
 const port = 3000;
@@ -303,6 +304,36 @@ const serverStatus = () => {
 app.use('/api/uptime', require('express-healthcheck')({
   healthy: serverStatus
 }));
+
+app.get('/exceldownload/:filename', async (req, res) => {
+  const filename = req.params.filename;
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('Users');
+
+  worksheet.columns = [
+    { header: 'User Number', key: 'user_number', width: 15 },
+    { header: 'Email', key: 'email', width: 30 },
+    { header: 'Full Name', key: 'full_name', width: 30 },
+    { header: 'Born Date', key: 'born_date', width: 15 },
+    { header: 'City', key: 'city', width: 15 },
+    { header: 'Phone Number', key: 'phone_number', width: 15 },
+    { header: 'Position at Church', key: 'position_at_church', width: 20 },
+    { header: 'T-Shirt Size', key: 'tshirt_size', width: 15 },
+    { header: 'Blazer Size', key: 'blazer_size', width: 15 },
+    { header: 'Profile Picture', key: 'profile_picture', width: 30 },
+    { header: 'Quotes Words', key: 'quotes_words', width: 40 },
+  ];
+
+  const users = await User.find();
+
+  users.forEach(user => {
+    worksheet.addRow(user);
+  });
+
+  res.setHeader('Content-Disposition', `attachment; filename="${filename}.xlsx"`);
+  res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+  await workbook.xlsx.write(res);
+});
 
 app.listen(port, function() {
   console.log("Server started on port " + port);
