@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -12,11 +13,12 @@ const requestIP = require('request-ip');
 const ExcelJS = require('exceljs');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+const localURL = process.env.LOCAL_URL || 'http://localhost:3000'
+const mongoAtlasUri = process.env.MONGO_ATLAS;
 
 app.set("view engine", "ejs");
 
-const mongoAtlasUri = "mongodb+srv://abbasiagian:123qwe123qwe@abbamongodb.aeahuus.mongodb.net/?retryWrites=true&w=majority";
 mongoose.connect(mongoAtlasUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -26,8 +28,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function() {
   console.log("Connected to database!");
 });
-
-// autoIncrement.initialize(db);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -102,30 +102,21 @@ app.post('/register', async function(req, res) {
           const savedUserData = await user.save();
 
           res.redirect("/tagname/" + user.id);
-
-          //  const apiEndpoint = `https://wa-openai.fahrizal91238.repl.co/${fields.phone_number}/Selamat anda sudah terdaftar di School of Prophet 2023! Berikut link tagname anda yang bisa anda download sekarang!`;
-
-
-          //  await axios.post(apiEndpoint);
-
-          // const postData = async () => {
           try {
             const response = await axios.post('https://wa-openai.fahrizal91238.repl.co/sendwhatsapp', {
               number: fields.phone_number,
-              msg: `Selamat anda sudah terdaftar di School of Prophet 2023! \n\n Berikut link tagname anda yang bisa anda download sekarang!\n http://flc-conference-ticket.abbayosua.repl.co/tagname/${user.id}\n\nUntuk edit data anda bisa klik link berikut:\nhttp://flc-conference-ticket.abbayosua.repl.co/members/${user.id}`
+              msg: `Selamat anda sudah terdaftar di School of Prophet 2023! \n\n Berikut link tagname anda yang bisa anda download sekarang!\n ${localURL}/tagname/${user.id}\n\nUntuk edit data anda bisa klik link berikut:\n${localURL}/members/${user.id}`
             });
             console.log(response);
           } catch (error) {
             console.error(error);
           }
-          // }
-          // postData();
 
           await sendMail(
             fields.email,
             "Registration Successful",
             "./views/emailTemplate.ejs",
-            { user: savedUserData }
+            { user: savedUserData, localURL }
           );
 
 

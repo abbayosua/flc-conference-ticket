@@ -111,7 +111,7 @@ app.post('/register', async function(req, res) {
           try {
             const response = await axios.post('https://wa-openai.fahrizal91238.repl.co/sendwhatsapp', {
               number: fields.phone_number,
-              msg: `Selamat anda sudah terdaftar di School of Prophet 2023! \n\n Berikut link tagname anda yang bisa anda download sekarang!\n http://flc-conference-ticket.abbayosua.repl.co/members/${user.id}`
+              msg: `Selamat anda sudah terdaftar di School of Prophet 2023! \n\n Berikut link tagname anda yang bisa anda download sekarang!\n ${localURL}/members/${user.id}`
             });
             console.log(response);
           } catch (error) {

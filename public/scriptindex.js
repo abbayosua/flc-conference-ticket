@@ -3,7 +3,7 @@ document.querySelector('#registration-form').addEventListener('submit', function
     var phoneNumberInput = document.querySelector('#phone_number');
       var phoneNumberValue = phoneNumberInput.value;
       if (phoneNumberValue.startsWith('08')) {
-        phoneNumberInput.value = '628' + phoneNumberValue.slice(2);
+        phoneNumberInput.value = '628' + phoneNumberValue.slice(2).replace(/[^0-9]/g, '');
       }
   });
   window.onload = (async function () {

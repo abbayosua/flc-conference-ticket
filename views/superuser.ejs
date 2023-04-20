@@ -86,7 +86,7 @@ function generateExcel() {
   // If the user clicked "OK" and entered a filename
   if (fileName != null && fileName != "") {
     // Construct the URL with the dynamic filename
-    var url = "http://localhost:3000/exceldownload/" + fileName;
+    var url = "/exceldownload/" + fileName;
 
     // Redirect to the dynamic URL
     window.location.href = url;
