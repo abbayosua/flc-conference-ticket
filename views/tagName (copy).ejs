@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.2.1/html2canvas.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>
+        Download Tag Name
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head> 
+
+<body spellcheck="false" >
+    <nav class="navbar navbar-expand-md bg-dark navbar-dark">
+        <a class="navbar-brand" href="#">FLC Registration System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav">
+          </ul>
+        </div>
+    </nav>
+  
+      <div style="width:100%; text-align: center; margin: 50px 0px -50px 0px; z-index: 99999; position: relative;">
+        <h1>Registrasi Anda Berhasil!! </h1>
+        <h4>Silahkan klik tombol dibawah untuk menyimpan Foto Tagname anda atau gallery anda karena otomatis terdownload, link ini juga sudah dikirimkan ke whatsapp anda apabila file tag name terhapus</h4>
+        <button id="convert-btn" class="btn btn-primary">Download Tag Name</button>
+    </div>
+    <div class="wcdiv wcpage" style="width:612pt; height:792pt;" id="this-content">
+        <div class="wcdiv"><img class="wcimg" style="left: 125.83pt; top: 60.15pt; width: 380pt; height: 647.15pt;" src="/tagname.png" width="380pt" height="647.15pt"></div>
+        <div class="wcdiv" style="left:219.1pt; top:516.83pt;">
+            <div class="wcdiv" style=" ">
+                <div class="wcdiv" style="left:7.55pt; top:3.95pt;"><span class="wcspan wctext001" style="font-size:14pt; left:0pt; top:0pt; line-height:17.09pt;text-transform: capitalize;"><%= user.phone_number %></span></div>
+            </div>
+        </div>
+        <div class="wcdiv" style="left:218.5pt; top:549.05pt;">
+            <div class="wcdiv" style="">
+                <div class="wcdiv" style="left:7.55pt; top:3.95pt;"><span class="wcspan wctext001" style="font-size:14pt; left:0pt; top:0pt; line-height:17.09pt;text-transform: capitalize;"><%= user.email %></span></div>
+            </div>
+        </div>
+        <div class="wcdiv" style="left:217.85pt; top:580.35pt;">
+            <div class="wcdiv" style="">
+                <div class="wcdiv" style="left:7.55pt; top:3.95pt;"><span class="wcspan wctext001" style="font-size:14pt; left:0pt; top:0pt; line-height:17.09pt;text-transform: capitalize;"><%= user.city %></span></div>
+            </div>
+        </div>
+        <div class="wcdiv" style="left:182.55pt; top:447.42pt;">
+            <div class="wcdiv" style="">
+                <div class="wcdiv" style="left:7.55pt; top:3.95pt;"><span class="wcspan wctext001" style="text-transform: capitalize; font-size:18pt; left:-62.56pt; top:5pt; line-height:19.97pt; width: 500px; text-align:center;"><%= user.full_name %></span> <span class="wcspan wctext001" style="font-size:18pt; left:117.51pt; top:0pt; line-height:21.97pt;">&nbsp;</span></div>
+            </div>
+        </div>
+        <div class="wcdiv" style="left:163.33pt; top:481.15pt;">
+            <div class="wcdiv" style="">
+                <div class="wcdiv" style="left:5.55pt; top:1.95pt;"><span class="wcspan wctext001" style="font-size:18pt; left:-42.02pt; top:0pt; line-height:21.97pt; width: 500px; text-align:center;"><%= user.position_at_church %></span> <span class="wcspan wctext001" style="font-size:18pt; left:143.86pt; top:0pt; line-height:21.97pt;">&nbsp;</span>
+                </div>
+            </div>
+        </div>
+        <div class="wcdiv" style="left:374.05pt; top:656.02pt;">
+            <div class="wcdiv" style="clip:rect(3.95pt,97.9pt,34.6pt,0.35pt);">
+                <div class="wcdiv" style="left:7.55pt; top:3.95pt;"><span class="wcspan wctext002" style="font-size:22pt; color:#ffffff; left:0pt; top:0pt; line-height:26.86pt;">-</span> <span class="wcspan wctext002" style="font-size:22pt; color:#ffffff; left:6.74pt; top:0pt; line-height:26.86pt;">&nbsp;</span> <span class="wcspan wctext002" style="font-size:22pt; color:#ffffff; left:10.71pt; top:0.7pt; line-height:26.86pt;max-width: 50px; text-align: center;"><%= user.user_number %></span></div>
+            </div>
+        </div>
+        <div class="wcdiv" style="left:234.5pt; top:253.93pt;"><img class="wcimg" style="left: 8.99pt; top: 173.46pt; width: 138.77pt; height: 52.51pt; display:none;" src="/shadow.png" width="138.77pt" height="52.51pt">
+            <div class="wcdiv" style="left:-2.89pt; top:-2.89pt; width:217px; height:218px;">
+                <img style="border-radius: 50%; height: 105%; width: 105%; margin-left: -5px; object-fit: cover;" src="<%= user.profile_picture %>" />
+            </div>
+        </div>
+    </div>
+</body>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
+.wcdiv {
+	position:absolute;
+}
+.wcspan {
+	position:absolute;
+	white-space:pre;
+	color:#000000;
+	font-size:12pt;
+}
+.wcimg {
+	position:absolute;
+}
+.wcsvg {
+	position:absolute;
+}
+.wcpage {
+	position:relative;
+	margin:10pt auto 10pt auto;
+	overflow:hidden;
+}
+@media print {
+	body {
+		margin:0pt;
+		padding:0pt;
+	}
+	.wcpage {
+		page-break-after:always;
+		margin:0pt;
+		padding:0pt;
+        font-weight: 800;
+	}
+}
+.wctext001 {
+	/* font-family:'Calibri'; */
+    font-family: 'Open Sans', sans-serif;
+	font-style:normal;
+	font-weight:bold;
+}
+.wctext002 {
+	/* font-family:'Courier-new'; */
+    font-family: 'Open Sans', sans-serif;
+	font-style:normal;
+	font-weight:bold;
+}
+</style>
+<script>
+    var element = document.getElementById("this-content");
+
+    function test () {
+        html2canvas(element, {allowTaint: true, useCORS: true}).then(function(canvas) {
+            // create an anchor tag for the download link
+            var link = document.createElement("a");
+            link.download = "tagnameSOP.png";
+            link.href = canvas.toDataURL();
+            // trigger the download
+            link.click();
+        });
+    };
+
+// add click event listener to the button
+document.getElementById("convert-btn").addEventListener("click", function() {
+  // use html2canvas to convert the element to image
+  test();
+});
+window.onload = (async function () {
+    test();
+})
+  </script>
+
+</html>

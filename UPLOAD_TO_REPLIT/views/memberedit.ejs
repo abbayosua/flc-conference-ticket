@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <body>
   <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-    <a class="navbar-brand" href="#">Registration</a>
+    <a class="navbar-brand" href="#">Edit</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -28,15 +28,12 @@
     </div>
   </nav>
  <h1>Edit User</h1>
- <form method="POST" action="/edit/<%= user._id %>">
+ <form method="POST" action="/memberedit/<%= user._id %>">
  <label for="email">Email:</label>
  <input type="email" name="email" id="email" value="<%= user.email %>" required>
  <br>
  <label for="full_name">Full Name:</label>
  <input type="text" name="full_name" id="full_name" value="<%= user.full_name %>" required>
- <br>
-   <label for="full_name">User Number (Nomor Peserta)</label>
- <input type="text" name="user_number" id="user_number" value="<%= user.user_number %>" required>
  <br>
  <label for="born_date">Birth Date:</label>
  <input type="date" name="born_date" id="born_date" value="<%= user.born_date %>" required>
@@ -56,9 +53,6 @@
  <option value="M" <%= user.tshirt_size === 'M' ? 'selected' : '' %>>M</option>
  <option value="L" <%= user.tshirt_size === 'L' ? 'selected' : '' %>>L</option>
  <option value="XL" <%= user.tshirt_size === 'XL' ? 'selected' : '' %>>XL</option>
-  <option value="XXL" <%= user.tshirt_size === 'XXL' ? 'selected' : '' %>>XXL</option>
-   <option value="XXXL" <%= user.tshirt_size === 'XXXL' ? 'selected' : '' %>>XXXL</option>
-   <option value="XXXXL" <%= user.tshirt_size === 'XXXXL' ? 'selected' : '' %>>XXXXL</option>
  </select>
  <br>
  <label for="blazer_size">Blazer Size:</label>
@@ -67,18 +61,14 @@
  <option value="M" <%= user.blazer_size === 'M' ? 'selected' : '' %>>M</option>
  <option value="L" <%= user.blazer_size === 'L' ? 'selected' : '' %>>L</option>
  <option value="XL" <%= user.blazer_size === 'XL' ? 'selected' : '' %>>XL</option>
-  <option value="XXL" <%= user.tshirt_size === 'XXL' ? 'selected' : '' %>>XXL</option>
-   <option value="XXXL" <%= user.tshirt_size === 'XXXL' ? 'selected' : '' %>>XXXL</option>
-   <option value="XXXXL" <%= user.tshirt_size === 'XXXXL' ? 'selected' : '' %>>XXXXL</option>
  </select>
  <br>
- <label for="profile_picture">Profile Picture:</label><br/>
- <!-- <input type="text" name="profile_picture" id="profile_picture" value="<%= user.profile_picture %>" required> -->
-   <img type="text" name="profile_picture" id="profile_picture" src="<%= user.profile_picture %>" height="150px">
+ <label for="profile_picture">Profile Picture:</label>
+<!--  <input type="text" name="profile_picture" id="profile_picture" value="<%= user.profile_picture %>" required> -->
+   <img src="<%= user.profile_picture %>" width="50px"/>
  <br>
-<br>
  <label for="quotes_words">Quotes Words:</label>
- <textarea  rows="4" cols="50" name="quotes_words" id="quotes_words" required><%= user.quotes_words %></textarea>
+ <textarea name="quotes_words" id="quotes_words" required><%= user.quotes_words %></textarea>
  <br>
   <div class="d-flex flex-row">
     <button type="submit">

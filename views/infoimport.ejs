@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Import Data</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    .success-message {
+      color: green;
+      margin-bottom: 20px;
+    }
+    .error-message {
+      color: red;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Import Data</h1>
+
+    <% if (status === 'success') { %>
+      <div class="success-message">
+        Import data berhasil
+      </div>
+    <% } else if (status === 'error') { %>
+      <div class="error-message">
+        Terjadi kesalahan saat melakukan import data
+      </div>
+    <% } %>
+
+    <a href="/">Kembali ke halaman utama</a>
+  </div>
+</body>
+</html>
+
