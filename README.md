@@ -4,8 +4,8 @@ This is a simple registration form using HTML, Bootstrap, and JavaScript.
 
 ### Getting Started
 
-1. Clone this repository: `git clone https://github.com/example/example.git`.
-2. Open `index.html` in your browser or run it on your local server.
+1. Clone this repository: `git clone https://github.com/abbayosua/flc-conference-ticket.git`.
+2. run `node server.js`
 
 ### Prerequisites
 
